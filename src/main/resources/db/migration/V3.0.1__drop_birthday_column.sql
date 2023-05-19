@@ -1,0 +1,1 @@
+ALTER TABLE `mydb`.`people_test` DROP COLUMN `birthday`;

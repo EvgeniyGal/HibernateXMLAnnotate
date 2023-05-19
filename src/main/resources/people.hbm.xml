@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping SYSTEM
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"> 
+<hibernate-mapping> 
+    <class name="jdbc_lesson.entities.People" table="people">
+        <id name="id" type="long" column="id">
+            <generator class="native"></generator>
+        </id>
+        <property name="age" column="age" type="int"/>
+        <property name="name" column="name" type="string"/>
+        <property name="birthday" column="birthday" type="LocalDate"/>
+    </class>
+</hibernate-mapping> 
