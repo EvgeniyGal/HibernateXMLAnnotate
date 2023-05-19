@@ -69,15 +69,60 @@ public class MySqlDbExample {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             people.setId(peopleId);
-            session.save(people);
+            Long id = (Long) session.save(people);
             People p = session.byId(People.class).load(1L);
-            System.out.println(p);
+            System.out.println(session.byId(People.class).load(id));
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
         }
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            People p = session.byId(People.class).load(2L);
+            p.setName("Yevgen");
+            System.out.println(session.byId(People.class).load(2L));
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        }
+
+        people.setName("Test name");
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            session.save(people);
+            System.out.println(session.byId(People.class).load(2L));
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        }
+
+        people.setId(6L);
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            session.so(people);
+            System.out.println(session.byId(People.class).load(4L));
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        }
+
+
+
+//        Hibernate state
+//        Trancient state
+        //Persistent state
+        // Detached state
+//        Remove state
+//
 
 
 //        try (Connection conn = DriverManager.getConnection(PROPERTIES.getProperty("url"), PROPERTIES); 
