@@ -106,7 +106,7 @@ public class MySqlDbExample {
         people.setId(6L);
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            session.so(people);
+            session.save(people);
             System.out.println(session.byId(People.class).load(4L));
             transaction.commit();
         } catch (Exception e) {
