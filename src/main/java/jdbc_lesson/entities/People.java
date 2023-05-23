@@ -1,36 +1,41 @@
 package jdbc_lesson.entities;
 
 import java.time.LocalDate;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.*;
+
+import lombok.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = {"phoneNumbers", "proFile"})
+@ToString(exclude = "phoneNumbers")
 @Builder
 @Entity
 @Table(name = "people")
 public class People implements BaseEntity<Long> {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     @Column(name = "age")
     private Integer age;
-    
+
     @Column(name = "name")
     private String name;
-    
+
     @Column(name = "birthday")
     private LocalDate birthday;
-    
+
+    @Builder.Default
+    @OneToMany(mappedBy = "people", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<PhoneNumber> phoneNumbers = new ArrayList<>();
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private ProFile proFile;
+
 }

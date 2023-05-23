@@ -40,7 +40,9 @@ public class HibernateRepositoryImpl<E extends BaseEntity<ID>,
 
     @Override
     public List<E> findAll() {
-        return null;
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("SELECT e FROM " + modelClass.getSimpleName() + " e ", modelClass).getResultList();
+        }
     }
 
     @Override

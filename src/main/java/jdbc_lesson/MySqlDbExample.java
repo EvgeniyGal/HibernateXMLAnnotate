@@ -13,6 +13,7 @@ import static jdbc_lesson.PropertyReader.PROPERTIES;
 
 import jdbc_lesson.entities.People;
 import jdbc_lesson.repository.BaseRepository;
+import jdbc_lesson.repository.HibernateRepositoryImpl;
 import jdbc_lesson.repository.RepositoryFactory;
 import lombok.SneakyThrows;
 import org.hibernate.Session;
@@ -40,6 +41,8 @@ public class MySqlDbExample {
         Transaction transaction = null;
 
         Long peopleId = null;
+
+        HibernateRepositoryImpl<People, Long> hibernateRepository = new HibernateRepositoryImpl<>(People.class, HibernateUtil.getSessionFactory());
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -83,7 +86,7 @@ public class MySqlDbExample {
             transaction = session.beginTransaction();
             People p = session.byId(People.class).load(2L);
             p.setName("Yevgen");
-            System.out.println(session.byId(People.class).load(2L));
+            System.out.println(session.byId(People.class).load(2L).getProFile());
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -114,6 +117,8 @@ public class MySqlDbExample {
                 transaction.rollback();
             }
         }
+
+        System.out.println();
 
 
 
